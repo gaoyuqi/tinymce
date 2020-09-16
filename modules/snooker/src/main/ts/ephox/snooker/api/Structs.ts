@@ -69,6 +69,12 @@ export interface RowDetails {
   readonly section: Section;
 }
 
+export interface Column {
+  readonly element: SugarElement<HTMLTableColElement>;
+  readonly colspan: number;
+  readonly column: number;
+}
+
 export interface Bounds {
   readonly startRow: number;
   readonly startCol: number;

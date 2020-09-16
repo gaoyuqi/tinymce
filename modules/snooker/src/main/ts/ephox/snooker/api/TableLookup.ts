@@ -46,7 +46,7 @@ const row = (element: SugarElement, isRoot?: (e: SugarElement) => boolean) => lo
 
 const rows = (ancestor: SugarElement): SugarElement<HTMLTableRowElement>[] => LayerSelector.firstLayer(ancestor, 'tr');
 
-const columnGroups = (ancestor: SugarElement): SugarElement<HTMLElement>[] => LayerSelector.firstLayer(ancestor, 'colGroup');
+const columnGroups = (ancestor: SugarElement): SugarElement<HTMLElement>[] => LayerSelector.firstLayer(ancestor, 'colgroup');
 
 const attr = (element: SugarElement, property: string) => getAttrValue(element, property);
 

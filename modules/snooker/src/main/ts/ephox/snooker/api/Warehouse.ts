@@ -1,5 +1,5 @@
 import { Arr, Optional } from '@ephox/katamari';
-import { SugarElement, Traverse } from '@ephox/sugar';
+import { SugarElement, Traverse, SugarNode } from '@ephox/sugar';
 import * as Structs from '../api/Structs';
 import * as DetailsList from '../model/DetailsList';
 
@@ -7,7 +7,7 @@ export interface Warehouse {
   readonly grid: Structs.Grid;
   readonly access: Record<string, Structs.DetailExt>;
   readonly all: Structs.RowData<Structs.DetailExt>[];
-  readonly groups: SugarElement[];
+  readonly columns: Structs.Column[];
 }
 
 const key = function (row: number, column: number) {
@@ -48,7 +48,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
   //          rowspan (merge cols)
   const access: Record<string, Structs.DetailExt> = {};
   const cells: Structs.RowData<Structs.DetailExt>[] = [];
-  let groups: SugarElement[] = [];
+  let groups: Structs.Column[] = [];
 
   let maxRows = 0;
   let maxColumns = 0;
@@ -80,10 +80,22 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
     });
 
     if (rowData.section === 'colgroup') {
-      groups = Traverse.children(rowData.element);
-      groups = Arr.filter(groups, (element): boolean =>
-        element.dom.nodeName === 'COL'
-      );
+      const columns = Traverse.children(rowData.element);
+      const filteredColumns = Arr.filter(columns, SugarNode.isTag('col'));
+
+      let index = 0;
+
+      groups = Arr.map(filteredColumns, (column: SugarElement<HTMLTableColElement>): Structs.Column => {
+        const colspan = column.dom.getAttribute('colspan');
+        const colspanValue = colspan ? Number.parseInt(colspan, 10) : 1;
+        index += colspanValue;
+
+        return {
+          element: column,
+          colspan: colspanValue,
+          column: index - colspanValue
+        };
+      });
     } else {
       maxRows++;
       cells.push(Structs.rowdata(rowData.element, currentRow, rowData.section));
@@ -96,7 +108,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
     grid,
     access,
     all: cells,
-    groups
+    columns: groups
   };
 };
 
@@ -112,10 +124,18 @@ const justCells = function (warehouse: Warehouse) {
 };
 
 const justColumns = (warehouse: Warehouse) =>
-  Arr.map(warehouse.groups, (group) => group);
+  Arr.map(warehouse.columns, (group) => group);
 
 const hasColumns = (warehouse: Warehouse) =>
-  warehouse.groups.length > 0;
+  warehouse.columns.length > 0;
+
+const getColumnAtIndex = (warehouse: Warehouse, columnIndex: number) => {
+  const result = Arr.find(warehouse.columns, (column): boolean =>
+    column.column >= columnIndex
+  );
+
+  return result.getOrNull();
+};
 
 export const Warehouse = {
   fromTable,
@@ -125,5 +145,6 @@ export const Warehouse = {
   filterItems,
   justCells,
   justColumns,
-  hasColumns
+  hasColumns,
+  getColumnAtIndex
 };

@@ -13,14 +13,17 @@ import { BarPositions, RowInfo } from './BarPositions';
 
 const sumUp = (newSize: number[]) => Arr.foldr(newSize, (b, a) => b + a, 0);
 
+const recalculate = (warehouse: Warehouse, widths: number[]): Recalculations.CellWidthSpan[] => {
+  if (Warehouse.hasColumns(warehouse)) {
+    return Recalculations.recalculateWidthForColumns(warehouse, widths);
+  } else {
+    return Recalculations.recalculateWidthForCells(warehouse, widths);
+  }
+};
+
 const recalculateAndApply = (warehouse: Warehouse, widths: number[], tableSize: TableSize): void => {
   // Set the width of each cell based on the column widths
-  let newSizes: Recalculations.CellWidthSpan[] = [];
-  if (Warehouse.hasColumns(warehouse)) {
-    newSizes = Recalculations.recalculateWidthForColumns(warehouse, widths);
-  } else {
-    newSizes = Recalculations.recalculateWidthForTd(warehouse, widths);
-  }
+  const newSizes = recalculate(warehouse, widths);
 
   Arr.each(newSizes, (cell) => {
     tableSize.setElementWidth(cell.element, cell.width);
@@ -48,7 +51,7 @@ const adjustHeight = (table: SugarElement, delta: number, index: number, directi
 
   const newHeights = Arr.map(heights, (dy, i) => index === i ? Math.max(delta + dy, CellUtils.minHeight()) : dy);
 
-  const newCellSizes = Recalculations.recalculateHeight(warehouse, newHeights);
+  const newCellSizes = Recalculations.recalculateHeightForCells(warehouse, newHeights);
   const newRowSizes = Recalculations.matchRowHeight(warehouse, newHeights);
 
   Arr.each(newRowSizes, (row) => {

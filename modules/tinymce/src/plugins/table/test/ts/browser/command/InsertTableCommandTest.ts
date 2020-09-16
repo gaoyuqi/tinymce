@@ -1,16 +1,14 @@
-import { Log, Logger, Pipeline, Step } from '@ephox/agar';
+import { Log, Pipeline } from '@ephox/agar';
 import { UnitTest } from '@ephox/bedrock-client';
 import { TinyApis, TinyLoader } from '@ephox/mcagar';
 
 import Plugin from 'tinymce/plugins/table/Plugin';
 import SilverTheme from 'tinymce/themes/silver/Theme';
-import { sAssertTableStructureWithSizes } from '../../module/test/TableTestUtils';
+import { sAssertTableStructureWithSizes, sInsertTable } from '../../module/test/TableTestUtils';
 
 UnitTest.asynctest('browser.tinymce.plugins.table.command.InsertTableCommandTest', (success, failure) => {
   Plugin();
   SilverTheme();
-
-  const sInsertTable = (editor, args) => Logger.t('Insert table ', Step.sync(() => editor.execCommand('mceInsertTable', false, args)));
 
   TinyLoader.setup((editor, onSuccess, onFailure) => {
     const tinyApis = TinyApis(editor);

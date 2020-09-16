@@ -1,5 +1,6 @@
 import { Arr } from '@ephox/katamari';
 import { SugarElement } from '@ephox/sugar';
+import * as Structs from '../api/Structs';
 import { Warehouse } from '../api/Warehouse';
 
 // Returns the sum of elements of measures in the half-open range [start, end)
@@ -30,7 +31,7 @@ interface CellHeightSpan extends CellHeight {
 
 // Returns an array of all cells in warehouse with updated cell-widths, using
 // the array 'widths' of the representative widths of each column of the table 'warehouse'
-const recalculateWidthForTd = (warehouse: Warehouse, widths: number[]): CellWidthSpan[] => {
+const recalculateWidthForCells = (warehouse: Warehouse, widths: number[]): CellWidthSpan[] => {
   const all = Warehouse.justCells(warehouse);
 
   return Arr.map(all, function (cell) {
@@ -47,16 +48,16 @@ const recalculateWidthForTd = (warehouse: Warehouse, widths: number[]): CellWidt
 const recalculateWidthForColumns = (warehouse: Warehouse, widths: number[]): CellWidthSpan[] => {
   const groups = Warehouse.justColumns(warehouse);
 
-  return Arr.map(groups, (cell: SugarElement, index: number) => ({
-    element: cell,
+  return Arr.map(groups, (column: Structs.Column, index: number) => ({
+    element: column.element,
     width: widths[index],
-    colspan: 1
+    colspan: column.colspan
   }));
 };
 
-const recalculateHeight = function (warehouse: Warehouse, heights: number[]): CellHeightSpan[] {
+const recalculateHeightForCells = (warehouse: Warehouse, heights: number[]): CellHeightSpan[] => {
   const all = Warehouse.justCells(warehouse);
-  return Arr.map(all, function (cell) {
+  return Arr.map(all, (cell) => {
     const height = total(cell.row, cell.row + cell.rowspan, heights);
     return {
       element: cell.element,
@@ -76,9 +77,9 @@ const matchRowHeight = function (warehouse: Warehouse, heights: number[]): CellH
 };
 
 export {
-  recalculateWidthForTd,
+  recalculateWidthForCells,
   recalculateWidthForColumns,
-  recalculateHeight,
+  recalculateHeightForCells,
   matchRowHeight,
   CellWidthSpan
 };

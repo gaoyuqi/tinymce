@@ -24,10 +24,21 @@ const render = <T extends DetailNew> (table: SugarElement, grid: RowDataNew<T>[]
     (c) => Fun.curry(Insert.after, c)
   );
 
+  const insertColGroup = Arr.last(SelectorFilter.children(table, 'caption')).fold(
+    () => Fun.curry(Insert.prepend, table),
+    (c) => Fun.curry(Insert.after, c)
+  );
+
   const renderSection = (gridSection: RowDataNew<T>[], sectionName: Section) => {
     const section = SelectorFind.child(table, sectionName).getOrThunk(() => {
       const tb = SugarElement.fromTag(sectionName, Traverse.owner(table).dom);
-      sectionName === 'thead' ? insertThead(tb) : Insert.append(table, tb); // mutation
+      if (sectionName === 'thead') {
+        insertThead(tb);
+      } else if (sectionName === 'colgroup') {
+        insertColGroup(tb);
+      } else {
+        Insert.append(table, tb);
+      }
       return tb;
     });
 
@@ -89,13 +100,13 @@ const render = <T extends DetailNew> (table: SugarElement, grid: RowDataNew<T>[]
     }
   });
 
-  renderOrRemoveSection(headSection, 'thead');
-  renderOrRemoveSection(bodySection, 'tbody');
-  renderOrRemoveSection(footSection, 'tfoot');
-
   if (columnGroupsSection.length) {
     renderOrRemoveSection(columnGroupsSection, 'colgroup');
   }
+
+  renderOrRemoveSection(headSection, 'thead');
+  renderOrRemoveSection(bodySection, 'tbody');
+  renderOrRemoveSection(footSection, 'tfoot');
 
   return {
     newRows,

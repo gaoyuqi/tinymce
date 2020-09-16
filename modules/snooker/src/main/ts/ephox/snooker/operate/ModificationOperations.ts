@@ -22,21 +22,21 @@ const insertRowAt = function (grid: Structs.RowCells[], index: number, example: 
   return before.concat([ between ]).concat(after);
 };
 
+const getElementFor = (row: Structs.RowCells, column: number, section: string, withinSpan: boolean, example: number, comparator: CompElm, substitution: Subst): Structs.ElementNew => {
+  if (section === 'colgroup' || !withinSpan) {
+    return Structs.elementnew(substitution(GridRow.getCellElement(row, example), comparator), true);
+  } else {
+    return GridRow.getCell(row, column);
+  }
+};
+
 // substitution :: (item, comparator) -> item
 // example is the location of the cursor (the column index)
 // index is the insert position (at - or after - example) (the column index)
 const insertColumnAt = (grid: Structs.RowCells[], index: number, example: number, comparator: CompElm, substitution: Subst) =>
   Arr.map(grid, (row) => {
     const withinSpan = index > 0 && index < GridRow.cellLength(row) && comparator(GridRow.getCellElement(row, index - 1), GridRow.getCellElement(row, index));
-    let sub: Structs.ElementNew;
-
-    if (row.section === 'colgroup') {
-      sub = Structs.elementnew(substitution(GridRow.getCellElement(row, example), comparator), true);
-    } else if (withinSpan) {
-      sub = GridRow.getCell(row, index);
-    } else {
-      sub = Structs.elementnew(substitution(GridRow.getCellElement(row, example), comparator), true);
-    }
+    const sub = getElementFor(row, index, row.section, withinSpan, example, comparator, substitution);
 
     return GridRow.addCell(row, index, sub);
   });

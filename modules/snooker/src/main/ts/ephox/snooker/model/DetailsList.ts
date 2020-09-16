@@ -30,11 +30,10 @@ const fromTable = (table: SugarElement) => {
   });
 
   const tableColumnGroups = Arr.map(columnGroups, (group) => {
-    const parentOptional = Traverse.parent(group);
-    const parentSection = parentOptional.map((parent) => {
+    const parentSection = Traverse.parent(group).map((parent) => {
       const parentName = SugarNode.name(parent);
       return Structs.isValidSection(parentName) ? parentName : 'colgroup';
-    }).getOr('tbody');
+    }).getOr('colgroup');
 
     const cells = Arr.map(TableLookup.columns(group), (column) => {
       const rowspan = getAttrValue(column, 'rowspan', 1);

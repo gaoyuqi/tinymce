@@ -5,7 +5,7 @@ import * as ColumnSizes from '../resize/ColumnSizes';
 import * as Redistribution from '../resize/Redistribution';
 import * as Sizes from '../resize/Sizes';
 import * as CellUtils from '../util/CellUtils';
-import { DetailExt, RowData } from './Structs';
+import { DetailExt, RowData, Column } from './Structs';
 import { TableSize } from './TableSize';
 import { Warehouse } from './Warehouse';
 
@@ -19,10 +19,10 @@ const redistributeToW = function (newWidths: string[], cells: DetailExt[], unit:
   });
 };
 
-const redistributeToColumns = (newWidths: string[], groups: SugarElement[], unit: string) => {
-  Arr.each(groups, (column, index: number) => {
+const redistributeToColumns = (newWidths: string[], columns: Column[], unit: string) => {
+  Arr.each(columns, (column, index: number) => {
     const width = Redistribution.sum([ newWidths[index] ], CellUtils.minWidth());
-    Css.set(column, 'width', width + unit);
+    Css.set(column.element, 'width', width + unit);
   });
 };
 

@@ -1,6 +1,6 @@
 import { Arr, Fun, Optional } from '@ephox/katamari';
 import { SugarElement } from '@ephox/sugar';
-import { DetailExt } from '../api/Structs';
+import { DetailExt, Column } from '../api/Structs';
 import { Warehouse } from '../api/Warehouse';
 
 /*
@@ -15,15 +15,16 @@ const columns = (warehouse: Warehouse): Optional<SugarElement>[] => {
   const rowsArr = Arr.range(grid.rows, Fun.identity);
 
   if (Warehouse.hasColumns(warehouse)) {
-    return Arr.map(Warehouse.justColumns(warehouse), (element) =>
-      Optional.from(element));
+    return Arr.map(Warehouse.justColumns(warehouse), (column: Column) =>
+      Optional.from(column.element)
+    );
   } else {
     return Arr.map(cols, (col) => {
       const getBlock = () =>
         Arr.bind(rowsArr, (r) =>
           Warehouse.getAt(warehouse, r, col)
             .filter((detail) => detail.column === col)
-            .fold(Fun.constant([] as DetailExt[]), (detail) => [ detail ])
+            .toArray()
         );
 
       const isSingle = (detail: DetailExt) => detail.colspan === 1;

@@ -4,7 +4,7 @@ import { Attribute, Css, Insert, InsertAll, SugarElement } from '@ephox/sugar';
 export interface RenderOptions {
   styles: Record<string, string>;
   attributes: Record<string, string>;
-  useColumnGroups: boolean;
+  colGroups: boolean;
 }
 
 const DefaultRenderOptions: RenderOptions = {
@@ -15,7 +15,7 @@ const DefaultRenderOptions: RenderOptions = {
   attributes: {
     border: '1'
   },
-  useColumnGroups: false
+  colGroups: false
 };
 
 const tableHeaderCell = () => SugarElement.fromTag('th');
@@ -42,9 +42,9 @@ const createRow = (columns: number, rowHeaders: number, columnHeaders: number, r
 const createGroupRow = (columns: number) => {
   const columnGroup = SugarElement.fromTag('colgroup');
 
-  for (let index = 0; index < columns; index++) {
-    Insert.append(columnGroup, tableColumn());
-  }
+  Arr.range(columns, () =>
+    Insert.append(columnGroup, tableColumn())
+  );
 
   return columnGroup;
 };
@@ -59,11 +59,11 @@ const render = (rows: number, columns: number, rowHeaders: number, columnHeaders
   Css.setAll(table, renderOpts.styles);
   Attribute.setAll(table, renderOpts.attributes);
 
-  const actualRowHeaders = Math.min(rows, rowHeaders);
-
-  if (renderOpts.useColumnGroups) {
+  if (renderOpts.colGroups) {
     Insert.append(table, createGroupRow(columns));
   }
+
+  const actualRowHeaders = Math.min(rows, rowHeaders);
 
   if (rowHeadersGoInThead && rowHeaders > 0) {
     const thead = SugarElement.fromTag('thead');

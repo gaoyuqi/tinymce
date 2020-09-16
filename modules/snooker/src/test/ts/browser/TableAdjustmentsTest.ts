@@ -72,10 +72,10 @@ UnitTest.test('TableAdjustmentsTest', () => {
 
   const pixelTableWithColGroup = () => SugarElement.fromHtml<HTMLTableElement>(`<table style="border-collapse: collapse; width: 400px;" border="1">
   <colgroup>
-  <col style="width: 96.75px;">
-  <col style="width: 96.75px;">
-  <col style="width: 96.75px;">
-  <col style="width: 96.75px;">
+  <col style="width: 100px;">
+  <col style="width: 100px;">
+  <col style="width: 100px;">
+  <col style="width: 100px;">
   </colgroup>
   <tbody>
   <tr>
@@ -145,29 +145,29 @@ UnitTest.test('TableAdjustmentsTest', () => {
     testAdjustWidth(`rtl large step (%) - preserveTable (2-0)`, 50, [ 25, 25, 2.5, 47.5 ], relativeTable(), percentageToStep(-50, 400), 2, preserveTable, false);
     testAdjustWidth(`rtl large step (%) - preserveTable (2-1)`, 50, [ 25, 25, 2.5, 47.5 ], relativeTableWithColGroup(), percentageToStep(-50, 400), 2, preserveTable, true);
     testAdjustWidth(`ltr step (px) - preserveTable (0-0)`, 400, [ 146, 46, 96, 96 ], pixelTable(), 50, 0, preserveTable, false);
-    testAdjustWidth(`ltr step (px) - preserveTable (0-1)`, 400, [ 146, 46, 96, 96 ], pixelTableWithColGroup(), 50, 0, preserveTable, true);
+    testAdjustWidth(`ltr step (px) - preserveTable (0-1)`, 400, [ 150, 50, 100, 100 ], pixelTableWithColGroup(), 50, 0, preserveTable, true);
     testAdjustWidth(`ltr step (px) - preserveTable (1-0)`, 400, [ 96, 146, 46, 96 ], pixelTable(), 50, 1, preserveTable, false);
-    testAdjustWidth(`ltr step (px) - preserveTable (1-1)`, 400, [ 96, 146, 46, 96 ], pixelTableWithColGroup(), 50, 1, preserveTable, true);
+    testAdjustWidth(`ltr step (px) - preserveTable (1-1)`, 400, [ 100, 150, 50, 100 ], pixelTableWithColGroup(), 50, 1, preserveTable, true);
     testAdjustWidth(`ltr step (px) - preserveTable (2-0)`, 400, [ 96, 96, 146, 46 ], pixelTable(), 50, 2, preserveTable, false);
-    testAdjustWidth(`ltr step (px) - preserveTable (2-1)`, 400, [ 96, 96, 146, 46 ], pixelTableWithColGroup(), 50, 2, preserveTable, true);
+    testAdjustWidth(`ltr step (px) - preserveTable (2-1)`, 400, [ 100, 100, 150, 50 ], pixelTableWithColGroup(), 50, 2, preserveTable, true);
     testAdjustWidth(`ltr large step (px) - preserveTable (0-0)`, 400, [ 182, 10, 96, 96 ], pixelTable(), 200, 0, preserveTable, false);
-    testAdjustWidth(`ltr large step (px) - preserveTable (0-1)`, 400, [ 182, 10, 96, 96 ], pixelTableWithColGroup(), 200, 0, preserveTable, true);
+    testAdjustWidth(`ltr large step (px) - preserveTable (0-1)`, 400, [ 190, 10, 100, 100 ], pixelTableWithColGroup(), 200, 0, preserveTable, true);
     testAdjustWidth(`ltr large step (px) - preserveTable (1-0)`, 400, [ 96, 182, 10, 96 ], pixelTable(), 200, 1, preserveTable, false);
-    testAdjustWidth(`ltr large step (px) - preserveTable (1-1)`, 400, [ 96, 182, 10, 96 ], pixelTableWithColGroup(), 200, 1, preserveTable, true);
+    testAdjustWidth(`ltr large step (px) - preserveTable (1-1)`, 400, [ 100, 190, 10, 100 ], pixelTableWithColGroup(), 200, 1, preserveTable, true);
     testAdjustWidth(`ltr large step (px) - preserveTable (2-0)`, 400, [ 96, 96, 182, 10 ], pixelTable(), 200, 2, preserveTable, false);
-    testAdjustWidth(`ltr large step (px) - preserveTable (2-1)`, 400, [ 96, 96, 182, 10 ], pixelTableWithColGroup(), 200, 2, preserveTable, true);
+    testAdjustWidth(`ltr large step (px) - preserveTable (2-1)`, 400, [ 100, 100, 190, 10 ], pixelTableWithColGroup(), 200, 2, preserveTable, true);
     testAdjustWidth(`rtl step (px) - preserveTable (0-0)`, 400, [ 46, 146, 96, 96 ], pixelTable(), -50, 0, preserveTable, false);
-    testAdjustWidth(`rtl step (px) - preserveTable (0-1)`, 400, [ 46, 146, 96, 96 ], pixelTableWithColGroup(), -50, 0, preserveTable, true);
+    testAdjustWidth(`rtl step (px) - preserveTable (0-1)`, 400, [ 50, 150, 100, 100 ], pixelTableWithColGroup(), -50, 0, preserveTable, true);
     testAdjustWidth(`rtl step (px) - preserveTable (1-0)`, 400, [ 96, 46, 146, 96 ], pixelTable(), -50, 1, preserveTable, false);
-    testAdjustWidth(`rtl step (px) - preserveTable (1-1)`, 400, [ 96, 46, 146, 96 ], pixelTableWithColGroup(), -50, 1, preserveTable, true);
+    testAdjustWidth(`rtl step (px) - preserveTable (1-1)`, 400, [ 100, 50, 150, 100 ], pixelTableWithColGroup(), -50, 1, preserveTable, true);
     testAdjustWidth(`rtl step (px) - preserveTable (2-0)`, 400, [ 96, 96, 46, 146 ], pixelTable(), -50, 2, preserveTable, false);
-    testAdjustWidth(`rtl step (px) - preserveTable (2-1)`, 400, [ 96, 96, 46, 146 ], pixelTableWithColGroup(), -50, 2, preserveTable, true);
+    testAdjustWidth(`rtl step (px) - preserveTable (2-1)`, 400, [ 100, 100, 50, 150 ], pixelTableWithColGroup(), -50, 2, preserveTable, true);
     testAdjustWidth(`rtl large step (px) - preserveTable (0-0)`, 400, [ 10, 182, 96, 96 ], pixelTable(), -200, 0, preserveTable, false);
-    testAdjustWidth(`rtl large step (px) - preserveTable (0-1)`, 400, [ 10, 182, 96, 96 ], pixelTableWithColGroup(), -200, 0, preserveTable, true);
+    testAdjustWidth(`rtl large step (px) - preserveTable (0-1)`, 400, [ 10, 190, 100, 100 ], pixelTableWithColGroup(), -200, 0, preserveTable, true);
     testAdjustWidth(`rtl large step (px) - preserveTable (1-0)`, 400, [ 96, 10, 182, 96 ], pixelTable(), -200, 1, preserveTable, false);
-    testAdjustWidth(`rtl large step (px) - preserveTable (1-1)`, 400, [ 96, 10, 182, 96 ], pixelTableWithColGroup(), -200, 1, preserveTable, true);
+    testAdjustWidth(`rtl large step (px) - preserveTable (1-1)`, 400, [ 100, 10, 190, 100 ], pixelTableWithColGroup(), -200, 1, preserveTable, true);
     testAdjustWidth(`rtl large step (px) - preserveTable (2-0)`, 400, [ 96, 96, 10, 182 ], pixelTable(), -200, 2, preserveTable, false);
-    testAdjustWidth(`rtl large step (px) - preserveTable (2-1)`, 400, [ 96, 96, 10, 182 ], pixelTableWithColGroup(), -200, 2, preserveTable, true);
+    testAdjustWidth(`rtl large step (px) - preserveTable (2-1)`, 400, [ 100, 100, 10, 190 ], pixelTableWithColGroup(), -200, 2, preserveTable, true);
 
     // 'resizeTable' column resizing
     testAdjustWidth(`ltr step (%) - resizeTable (0-0)`, 56.25, [ 33.33, 22.22, 22.22, 22.22 ], relativeTable(), percentageToStep(12.5, 400), 0, resizeTable, false);
@@ -195,29 +195,29 @@ UnitTest.test('TableAdjustmentsTest', () => {
     testAdjustWidth(`rtl large step (%) - resizeTable (2-0)`, 38.75, [ 32.26, 32.26, 3.23, 32.26 ], relativeTable(), percentageToStep(-50, 400), 2, resizeTable, false);
     testAdjustWidth(`rtl large step (%) - resizeTable (2-1)`, 38.75, [ 32.26, 32.26, 3.23, 32.26 ], relativeTableWithColGroup(), percentageToStep(-50, 400), 2, resizeTable, true);
     testAdjustWidth(`ltr step (px) - resizeTable (0-0)`, 450, [ 146, 96, 96, 96 ], pixelTable(), 50, 0, resizeTable, false);
-    testAdjustWidth(`ltr step (px) - resizeTable (0-1)`, 450, [ 146, 96, 96, 96 ], pixelTableWithColGroup(), 50, 0, resizeTable, true);
+    testAdjustWidth(`ltr step (px) - resizeTable (0-1)`, 450, [ 150, 100, 100, 100 ], pixelTableWithColGroup(), 50, 0, resizeTable, true);
     testAdjustWidth(`ltr step (px) - resizeTable (1-0)`, 450, [ 96, 146, 96, 96 ], pixelTable(), 50, 1, resizeTable, false);
-    testAdjustWidth(`ltr step (px) - resizeTable (1-1)`, 450, [ 96, 146, 96, 96 ], pixelTableWithColGroup(), 50, 1, resizeTable, true);
+    testAdjustWidth(`ltr step (px) - resizeTable (1-1)`, 450, [ 100, 150, 100, 100 ], pixelTableWithColGroup(), 50, 1, resizeTable, true);
     testAdjustWidth(`ltr step (px) - resizeTable (2-0)`, 450, [ 96, 96, 146, 96 ], pixelTable(), 50, 2, resizeTable, false);
-    testAdjustWidth(`ltr step (px) - resizeTable (2-1)`, 450, [ 96, 96, 146, 96 ], pixelTableWithColGroup(), 50, 2, resizeTable, true);
+    testAdjustWidth(`ltr step (px) - resizeTable (2-1)`, 450, [ 100, 100, 150, 100 ], pixelTableWithColGroup(), 50, 2, resizeTable, true);
     testAdjustWidth(`ltr large step (px) - resizeTable (0-0)`, 600, [ 296, 96, 96, 96 ], pixelTable(), 200, 0, resizeTable, false);
-    testAdjustWidth(`ltr large step (px) - resizeTable (0-1)`, 600, [ 296, 96, 96, 96 ], pixelTableWithColGroup(), 200, 0, resizeTable, true);
+    testAdjustWidth(`ltr large step (px) - resizeTable (0-1)`, 600, [ 300, 100, 100, 100 ], pixelTableWithColGroup(), 200, 0, resizeTable, true);
     testAdjustWidth(`ltr large step (px) - resizeTable (1-0)`, 600, [ 96, 296, 96, 96 ], pixelTable(), 200, 1, resizeTable, false);
-    testAdjustWidth(`ltr large step (px) - resizeTable (1-1)`, 600, [ 96, 296, 96, 96 ], pixelTableWithColGroup(), 200, 1, resizeTable, true);
+    testAdjustWidth(`ltr large step (px) - resizeTable (1-1)`, 600, [ 100, 300, 100, 100 ], pixelTableWithColGroup(), 200, 1, resizeTable, true);
     testAdjustWidth(`ltr large step (px) - resizeTable (2-0)`, 600, [ 96, 96, 296, 96 ], pixelTable(), 200, 2, resizeTable, false);
-    testAdjustWidth(`ltr large step (px) - resizeTable (2-1)`, 600, [ 96, 96, 296, 96 ], pixelTableWithColGroup(), 200, 2, resizeTable, true);
+    testAdjustWidth(`ltr large step (px) - resizeTable (2-1)`, 600, [ 100, 100, 300, 100 ], pixelTableWithColGroup(), 200, 2, resizeTable, true);
     testAdjustWidth(`rtl step (px) - resizeTable (0-0)`, 350, [ 46, 96, 96, 96 ], pixelTable(), -50, 0, resizeTable, false);
-    testAdjustWidth(`rtl step (px) - resizeTable (0-1)`, 350, [ 46, 96, 96, 96 ], pixelTableWithColGroup(), -50, 0, resizeTable, true);
+    testAdjustWidth(`rtl step (px) - resizeTable (0-1)`, 350, [ 50, 100, 100, 100 ], pixelTableWithColGroup(), -50, 0, resizeTable, true);
     testAdjustWidth(`rtl step (px) - resizeTable (1-0)`, 350, [ 96, 46, 96, 96 ], pixelTable(), -50, 1, resizeTable, false);
-    testAdjustWidth(`rtl step (px) - resizeTable (1-1)`, 350, [ 96, 46, 96, 96 ], pixelTableWithColGroup(), -50, 1, resizeTable, true);
+    testAdjustWidth(`rtl step (px) - resizeTable (1-1)`, 350, [ 100, 50, 100, 100 ], pixelTableWithColGroup(), -50, 1, resizeTable, true);
     testAdjustWidth(`rtl step (px) - resizeTable (2-0)`, 350, [ 96, 96, 46, 96 ], pixelTable(), -50, 2, resizeTable, false);
-    testAdjustWidth(`rtl step (px) - resizeTable (2-1)`, 350, [ 96, 96, 46, 96 ], pixelTableWithColGroup(), -50, 2, resizeTable, true);
+    testAdjustWidth(`rtl step (px) - resizeTable (2-1)`, 350, [ 100, 100, 50, 100 ], pixelTableWithColGroup(), -50, 2, resizeTable, true);
     testAdjustWidth(`rtl large step (px) - resizeTable (0-0)`, 314, [ 10, 96, 96, 96 ], pixelTable(), -200, 0, resizeTable, false);
-    testAdjustWidth(`rtl large step (px) - resizeTable (0-1)`, 314, [ 10, 96, 96, 96 ], pixelTableWithColGroup(), -200, 0, resizeTable, true);
+    testAdjustWidth(`rtl large step (px) - resizeTable (0-1)`, 310, [ 10, 100, 100, 100 ], pixelTableWithColGroup(), -200, 0, resizeTable, true);
     testAdjustWidth(`rtl large step (px) - resizeTable (1-0)`, 314, [ 96, 10, 96, 96 ], pixelTable(), -200, 1, resizeTable, false);
-    testAdjustWidth(`rtl large step (px) - resizeTable (1-1)`, 314, [ 96, 10, 96, 96 ], pixelTableWithColGroup(), -200, 1, resizeTable, true);
+    testAdjustWidth(`rtl large step (px) - resizeTable (1-1)`, 310, [ 100, 10, 100, 100 ], pixelTableWithColGroup(), -200, 1, resizeTable, true);
     testAdjustWidth(`rtl large step (px) - resizeTable (2-0)`, 314, [ 96, 96, 10, 96 ], pixelTable(), -200, 2, resizeTable, false);
-    testAdjustWidth(`rtl large step (px) - resizeTable (2-1)`, 314, [ 96, 96, 10, 96 ], pixelTableWithColGroup(), -200, 2, resizeTable, true);
+    testAdjustWidth(`rtl large step (px) - resizeTable (2-1)`, 310, [ 100, 100, 10, 100 ], pixelTableWithColGroup(), -200, 2, resizeTable, true);
   };
 
   const testLastColumnResizing = () => {
@@ -231,13 +231,13 @@ UnitTest.test('TableAdjustmentsTest', () => {
     testAdjustWidth(`rtl large step (%) - resizeTable (3)`, 38.75, [ 32.26, 32.26, 32.26, 3.23 ], relativeTable(), percentageToStep(-50, 400), 3, resizeTable, false);
     testAdjustWidth(`rtl large step (%) - resizeTable (3)`, 38.75, [ 32.26, 32.26, 32.26, 3.23 ], relativeTableWithColGroup(), percentageToStep(-50, 400), 3, resizeTable, true);
     testAdjustWidth(`ltr step (px) - resizeTable (3)`, 450, [ 96, 96, 96, 146 ], pixelTable(), 50, 3, resizeTable, false);
-    testAdjustWidth(`ltr step (px) - resizeTable (3)`, 450, [ 96, 96, 96, 146 ], pixelTableWithColGroup(), 50, 3, resizeTable, true);
+    testAdjustWidth(`ltr step (px) - resizeTable (3)`, 450, [ 100, 100, 100, 150 ], pixelTableWithColGroup(), 50, 3, resizeTable, true);
     testAdjustWidth(`ltr large step (px) - resizeTable (3)`, 600, [ 96, 96, 96, 296 ], pixelTable(), 200, 3, resizeTable, false);
-    testAdjustWidth(`ltr large step (px) - resizeTable (3)`, 600, [ 96, 96, 96, 296 ], pixelTableWithColGroup(), 200, 3, resizeTable, true);
+    testAdjustWidth(`ltr large step (px) - resizeTable (3)`, 600, [ 100, 100, 100, 300 ], pixelTableWithColGroup(), 200, 3, resizeTable, true);
     testAdjustWidth(`rtl step (px) - resizeTable (3)`, 350, [ 96, 96, 96, 46 ], pixelTable(), -50, 3, resizeTable, false);
-    testAdjustWidth(`rtl step (px) - resizeTable (3)`, 350, [ 96, 96, 96, 46 ], pixelTableWithColGroup(), -50, 3, resizeTable, true);
+    testAdjustWidth(`rtl step (px) - resizeTable (3)`, 350, [ 100, 100, 100, 50 ], pixelTableWithColGroup(), -50, 3, resizeTable, true);
     testAdjustWidth(`rtl large step (px) - resizeTable (3)`, 314, [ 96, 96, 96, 10 ], pixelTable(), -200, 3, resizeTable, false);
-    testAdjustWidth(`rtl large step (px) - resizeTable (3)`, 314, [ 96, 96, 96, 10 ], pixelTableWithColGroup(), -200, 3, resizeTable, true);
+    testAdjustWidth(`rtl large step (px) - resizeTable (3)`, 310, [ 100, 100, 100, 10 ], pixelTableWithColGroup(), -200, 3, resizeTable, true);
 
     // 'preserveTable' column resizing
     testAdjustWidth(`ltr step (%) - preserveTable (3)`, 56.25, [ 25, 25, 25, 25 ], relativeTable(), percentageToStep(12.5, 400), 3, preserveTable, false);
@@ -249,15 +249,15 @@ UnitTest.test('TableAdjustmentsTest', () => {
     testAdjustWidth(`rtl large step (%) - preserveTable (3)`, 25, [ 25, 25, 25, 25 ], relativeTable(), percentageToStep(-50, 400), 3, preserveTable, false);
     testAdjustWidth(`rtl large step (%) - preserveTable (3)`, 25, [ 25, 25, 25, 25 ], relativeTableWithColGroup(), percentageToStep(-50, 400), 3, preserveTable, true);
     testAdjustWidth(`ltr step (px) - preserveTable (3)`, 450, [ 108, 108, 108, 108 ], pixelTable(), 50, 3, preserveTable, false);
-    testAdjustWidth(`ltr step (px) - preserveTable (3)`, 450, [ 108, 108, 108, 108 ], pixelTableWithColGroup(), 50, 3, preserveTable, true);
+    testAdjustWidth(`ltr step (px) - preserveTable (3)`, 450, [ 112.5, 112.5, 112.5, 112.5 ], pixelTableWithColGroup(), 50, 3, preserveTable, true);
     testAdjustWidth(`ltr large step (px) - preserveTable (3)`, 600, [ 146, 146, 146, 146 ], pixelTable(), 200, 3, preserveTable, false);
-    testAdjustWidth(`ltr large step (px) - preserveTable (3)`, 600, [ 146, 146, 146, 146 ], pixelTableWithColGroup(), 200, 3, preserveTable, true);
+    testAdjustWidth(`ltr large step (px) - preserveTable (3)`, 600, [ 150, 150, 150, 150 ], pixelTableWithColGroup(), 200, 3, preserveTable, true);
     testAdjustWidth(`rtl step (px) - preserveTable (3)`, 350, [ 83, 83, 83, 83 ], pixelTable(), -50, 3, preserveTable, false);
-    testAdjustWidth(`rtl step (px) - preserveTable (3)`, 350, [ 83, 83, 83, 83 ], pixelTableWithColGroup(), -50, 3, preserveTable, true);
+    testAdjustWidth(`rtl step (px) - preserveTable (3)`, 350, [ 87.5, 87.5, 87.5, 87.5 ], pixelTableWithColGroup(), -50, 3, preserveTable, true);
     testAdjustWidth(`rtl large step (px) - preserveTable (3)`, 200, [ 46, 46, 46, 46 ], pixelTable(), -200, 3, preserveTable, false);
-    testAdjustWidth(`rtl large step (px) - preserveTable (3)`, 200, [ 46, 46, 46, 46 ], pixelTableWithColGroup(), -200, 3, preserveTable, true);
+    testAdjustWidth(`rtl large step (px) - preserveTable (3)`, 200, [ 50, 50, 50, 50 ], pixelTableWithColGroup(), -200, 3, preserveTable, true);
     testAdjustWidth(`rtl extra large step (px) - preserveTable (3)`, 56, [ 10, 10, 10, 10 ], pixelTable(), -400, 3, preserveTable, false);
-    testAdjustWidth(`rtl extra large step (px) - preserveTable (3)`, 56, [ 10, 10, 10, 10 ], pixelTableWithColGroup(), -400, 3, preserveTable, true);
+    testAdjustWidth(`rtl extra large step (px) - preserveTable (3)`, 40, [ 10, 10, 10, 10 ], pixelTableWithColGroup(), -400, 3, preserveTable, true);
   };
 
   testInnerColumnResizing();

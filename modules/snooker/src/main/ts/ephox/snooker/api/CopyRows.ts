@@ -6,7 +6,7 @@ import * as Redraw from '../operate/Redraw';
 import { Generators } from './Generators';
 import { Warehouse } from './Warehouse';
 
-const copyRows = (table: SugarElement, target: TargetSelection, generators: Generators): Optional<SugarElement<HTMLTableRowElement>[]> => {
+const copyRows = (table: SugarElement<HTMLTableElement>, target: TargetSelection, generators: Generators): Optional<SugarElement<HTMLTableRowElement>[]> => {
   const warehouse = Warehouse.fromTable(table);
   const details = onCells(warehouse, target);
 
