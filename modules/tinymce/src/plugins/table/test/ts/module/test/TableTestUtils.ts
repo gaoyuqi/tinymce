@@ -7,6 +7,11 @@ import { TinyApis, TinyDom, TinyUi } from '@ephox/mcagar';
 import { Attribute, Html, SelectorFilter, SelectorFind, SugarBody, SugarElement, Value } from '@ephox/sugar';
 import Editor from 'tinymce/core/api/Editor';
 
+interface Options {
+  headerRows: number;
+  headerCols: number;
+}
+
 const getRawWidth = (editor: Editor, elm: HTMLElement) => {
   const style = editor.dom.getStyle(elm, 'width');
   if (style) {
@@ -389,11 +394,6 @@ const sAssertDialogValues = (data, hasAdvanced, generalSelectors) => {
 const sInsertTable = (editor: Editor, args) =>
   Logger.t('Insert table ', Step.sync(() =>
     editor.execCommand('mceInsertTable', false, args)));
-
-interface Options {
-  headerRows: number;
-  headerCols: number;
-}
 
 const sAssertTableStructureWithSizes = (
   editor: Editor,

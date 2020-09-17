@@ -7,7 +7,7 @@ export interface Warehouse {
   readonly grid: Structs.Grid;
   readonly access: Record<string, Structs.DetailExt>;
   readonly all: Structs.RowData<Structs.DetailExt>[];
-  readonly columns: Structs.Column[];
+  readonly columns: Record<string, Structs.Column>;
 }
 
 const key = function (row: number, column: number) {
@@ -32,6 +32,27 @@ const filterItems = function (warehouse: Warehouse, predicate: (x: Structs.Detai
   return Arr.filter(all, predicate);
 };
 
+const generateColumns = <T extends Structs.Detail> (rowData: Structs.RowData<T>, columnsGroup: Record<string, Structs.Column>) => {
+  const columns = Traverse.children(rowData.element);
+  const filteredColumns = Arr.filter(columns, SugarNode.isTag('col'));
+
+  let index = 0;
+
+  Arr.each(filteredColumns, (column: SugarElement<HTMLTableColElement>): void => {
+    const colspan = column.dom.getAttribute('colspan');
+    const colspanValue = colspan ? Number.parseInt(colspan, 10) : 1;
+
+    Arr.range(colspanValue, (columnIndex): void => {
+      columnsGroup[index + columnIndex] = {
+        element: column,
+        colspan: colspanValue
+      };
+    });
+
+    index += colspanValue;
+  });
+};
+
 /*
  * From a list of list of Detail, generate three pieces of information:
  *  1. the grid size
@@ -48,7 +69,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
   //          rowspan (merge cols)
   const access: Record<string, Structs.DetailExt> = {};
   const cells: Structs.RowData<Structs.DetailExt>[] = [];
-  let groups: Structs.Column[] = [];
+  const columnsGroup: Record<number, Structs.Column> = {};
 
   let maxRows = 0;
   let maxColumns = 0;
@@ -80,22 +101,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
     });
 
     if (rowData.section === 'colgroup') {
-      const columns = Traverse.children(rowData.element);
-      const filteredColumns = Arr.filter(columns, SugarNode.isTag('col'));
-
-      let index = 0;
-
-      groups = Arr.map(filteredColumns, (column: SugarElement<HTMLTableColElement>): Structs.Column => {
-        const colspan = column.dom.getAttribute('colspan');
-        const colspanValue = colspan ? Number.parseInt(colspan, 10) : 1;
-        index += colspanValue;
-
-        return {
-          element: column,
-          colspan: colspanValue,
-          column: index - colspanValue
-        };
-      });
+      generateColumns<T>(rowData, columnsGroup);
     } else {
       maxRows++;
       cells.push(Structs.rowdata(rowData.element, currentRow, rowData.section));
@@ -108,7 +114,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
     grid,
     access,
     all: cells,
-    columns: groups
+    columns: columnsGroup
   };
 };
 
@@ -123,19 +129,16 @@ const justCells = function (warehouse: Warehouse) {
   return Arr.flatten(rows);
 };
 
-const justColumns = (warehouse: Warehouse) =>
-  Arr.map(warehouse.columns, (group) => group);
-
-const hasColumns = (warehouse: Warehouse) =>
-  warehouse.columns.length > 0;
-
-const getColumnAtIndex = (warehouse: Warehouse, columnIndex: number) => {
-  const result = Arr.find(warehouse.columns, (column): boolean =>
-    column.column >= columnIndex
+const justColumns = (warehouse: Warehouse): Structs.Column[] =>
+  Arr.map(Object.keys(warehouse.columns), (key: string) =>
+    warehouse.columns[key]
   );
 
-  return result.getOrNull();
-};
+const hasColumns = (warehouse: Warehouse) =>
+  Object.keys(warehouse.columns).length > 0;
+
+const getColumnAt = (warehouse: Warehouse, columnIndex: number) =>
+  warehouse.columns[columnIndex];
 
 export const Warehouse = {
   fromTable,
@@ -146,5 +149,5 @@ export const Warehouse = {
   justCells,
   justColumns,
   hasColumns,
-  getColumnAtIndex
+  getColumnAt
 };

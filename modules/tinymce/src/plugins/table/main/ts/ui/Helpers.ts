@@ -267,7 +267,7 @@ export interface CellData {
   backgroundcolor?: string;
 }
 
-const extractDataFromCellElement = (editor: Editor, cell: HTMLTableDataCellElement, column: SugarElement<HTMLTableColElement> | undefined, hasAdvancedCellTab: boolean): CellData => {
+const extractDataFromCellElement = (editor: Editor, cell: HTMLTableDataCellElement, hasAdvancedCellTab: boolean, column: SugarElement<HTMLTableColElement> | undefined): CellData => {
   const dom = editor.dom;
 
   const getStyle = (element: HTMLElement, style: string) => dom.getStyle(element, style) || dom.getAttrib(element, style);

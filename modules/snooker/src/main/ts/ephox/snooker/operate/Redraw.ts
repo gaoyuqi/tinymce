@@ -19,23 +19,24 @@ const render = <T extends DetailNew> (table: SugarElement, grid: RowDataNew<T>[]
   const newRows: SugarElement[] = [];
   const newCells: SugarElement[] = [];
 
-  const insertThead = Arr.last(SelectorFilter.children(table, 'caption,colgroup')).fold(
-    () => Fun.curry(Insert.prepend, table),
-    (c) => Fun.curry(Insert.after, c)
-  );
+  const insert = (selector: string, element: SugarElement<HTMLTableSectionElement | HTMLTableColElement>) => {
+    const lastChild = Arr.last(SelectorFilter.children(table, selector));
 
-  const insertColGroup = Arr.last(SelectorFilter.children(table, 'caption')).fold(
-    () => Fun.curry(Insert.prepend, table),
-    (c) => Fun.curry(Insert.after, c)
-  );
+    const foldfunction = lastChild.fold(
+      () => Fun.curry(Insert.prepend, table),
+      (c) => Fun.curry(Insert.after, c)
+    );
+
+    foldfunction(element);
+  };
 
   const renderSection = (gridSection: RowDataNew<T>[], sectionName: Section) => {
     const section = SelectorFind.child(table, sectionName).getOrThunk(() => {
       const tb = SugarElement.fromTag(sectionName, Traverse.owner(table).dom);
       if (sectionName === 'thead') {
-        insertThead(tb);
+        insert('caption,colgroup', tb);
       } else if (sectionName === 'colgroup') {
-        insertColGroup(tb);
+        insert('caption', tb);
       } else {
         Insert.append(table, tb);
       }

@@ -29,7 +29,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.HelpersTest', (success, failur
         Chain.asStep(SugarElement.fromDom(editor.getBody()), [
           UiFinder.cFindIn('td.foo'),
           Chain.op((td) => {
-            const cellData = Helpers.extractDataFromCellElement(editor, td.dom, undefined, true);
+            const cellData = Helpers.extractDataFromCellElement(editor, td.dom, true, undefined);
             Assertions.assertEq('Extracts class', 'foo', cellData.class);
             Assertions.assertEq('Extracts scope', 'row', cellData.scope);
             Assertions.assertEq('Extracts celltype', 'td', cellData.celltype);
@@ -61,7 +61,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.HelpersTest', (success, failur
         Chain.asStep(SugarElement.fromDom(editor.getBody()), [
           UiFinder.cFindAllIn('.foo'),
           Chain.op((elements: SugarElement[]) => {
-            const cellData = Helpers.extractDataFromCellElement(editor, elements[1].dom, elements[0], true);
+            const cellData = Helpers.extractDataFromCellElement(editor, elements[1].dom, true, elements[0]);
             Assertions.assertEq('Extracts class', 'foo', cellData.class);
             Assertions.assertEq('Extracts scope', 'row', cellData.scope);
             Assertions.assertEq('Extracts celltype', 'td', cellData.celltype);
@@ -90,7 +90,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.HelpersTest', (success, failur
         Chain.asStep(SugarElement.fromDom(editor.getBody()), [
           UiFinder.cFindIn('td.foo'),
           Chain.op((td) => {
-            const cellData = Helpers.extractDataFromCellElement(editor, td.dom, undefined, true);
+            const cellData = Helpers.extractDataFromCellElement(editor, td.dom, true, undefined);
             Assertions.assertEq('Extracts width from style', '20px', cellData.width);
             Assertions.assertEq('Extracts height from style', '30px', cellData.height);
             Assertions.assertEq('Extracts background-color from rgb', '#333333', cellData.backgroundcolor);
@@ -114,7 +114,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.HelpersTest', (success, failur
         Chain.asStep(SugarElement.fromDom(editor.getBody()), [
           UiFinder.cFindAllIn('.foo'),
           Chain.op((elements: SugarElement[]) => {
-            const cellData = Helpers.extractDataFromCellElement(editor, elements[1].dom, elements[0], true);
+            const cellData = Helpers.extractDataFromCellElement(editor, elements[1].dom, true, elements[0]);
             Assertions.assertEq('Extracts width from style', '20px', cellData.width);
             Assertions.assertEq('Extracts height from style', '30px', cellData.height);
             Assertions.assertEq('Extracts background-color from rgb', '#333333', cellData.backgroundcolor);
@@ -134,7 +134,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.HelpersTest', (success, failur
         Chain.asStep(SugarElement.fromDom(editor.getBody()), [
           UiFinder.cFindIn('td.foo'),
           Chain.op((td) => {
-            const cellData = Helpers.extractDataFromCellElement(editor, td.dom, undefined, true);
+            const cellData = Helpers.extractDataFromCellElement(editor, td.dom, true, undefined);
             Assertions.assertEq('Extracts border-color from shorthand', '#008000', cellData.bordercolor);
             Assertions.assertEq('Extracts border-style from shorthand', 'dashed', cellData.borderstyle);
           })
@@ -156,7 +156,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.HelpersTest', (success, failur
         Chain.asStep(SugarElement.fromDom(editor.getBody()), [
           UiFinder.cFindAllIn('.foo'),
           Chain.op((elements: SugarElement[]) => {
-            const cellData = Helpers.extractDataFromCellElement(editor, elements[1].dom, elements[0], true);
+            const cellData = Helpers.extractDataFromCellElement(editor, elements[1].dom, true, elements[0]);
             Assertions.assertEq('Extracts border-color from shorthand', '#008000', cellData.bordercolor);
             Assertions.assertEq('Extracts border-style from shorthand', 'dashed', cellData.borderstyle);
           })

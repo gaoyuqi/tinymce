@@ -80,7 +80,7 @@ const applyCellData = (editor: Editor, cells: SugarElement<HTMLTableCellElement>
         const cellElm = data.celltype && Util.getNodeName(cellElement) !== data.celltype ? (dom.rename(cellElement, data.celltype) as HTMLTableCellElement) : cellElement;
         const modifier = isSingleCell ? DomModifier.normal(editor, cellElm) : DomModifier.ifTruthy(editor, cellElm);
 
-        const column = Warehouse.getColumnAtIndex(warehouse, cell.column);
+        const column = Warehouse.getColumnAt(warehouse, cell.column);
 
         updateSimpleProps(editor, modifier, isSingleCell, column ? column.element : undefined, data);
 
@@ -126,9 +126,9 @@ const getData = (editor: Editor, startCell: SugarElement<Element>, cells: SugarE
   const selectedCells = getSelectedCells(warehouse, cells);
 
   const cellsData: CellData[] = Arr.map(selectedCells, (cell) => {
-    const column = Warehouse.getColumnAtIndex(warehouse, cell.column);
+    const column = Warehouse.getColumnAt(warehouse, cell.column);
 
-    return Helpers.extractDataFromCellElement(editor, cell.element.dom, column ? column.element : undefined, hasAdvancedCellTab(editor));
+    return Helpers.extractDataFromCellElement(editor, cell.element.dom, hasAdvancedCellTab(editor), column ? column.element : undefined);
   });
 
   return Helpers.getSharedValues<CellData>(cellsData);

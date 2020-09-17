@@ -1,5 +1,5 @@
-import { SugarElement } from '@ephox/sugar';
 import { Arr } from '@ephox/katamari';
+import { SugarElement } from '@ephox/sugar';
 
 export interface Dimension {
   readonly width: number;
@@ -72,7 +72,6 @@ export interface RowDetails {
 export interface Column {
   readonly element: SugarElement<HTMLTableColElement>;
   readonly colspan: number;
-  readonly column: number;
 }
 
 export interface Bounds {

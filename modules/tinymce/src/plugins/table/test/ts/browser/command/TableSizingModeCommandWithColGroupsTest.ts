@@ -3,7 +3,7 @@ import { UnitTest } from '@ephox/bedrock-client';
 import { TinyApis, TinyLoader } from '@ephox/mcagar';
 import Plugin from 'tinymce/plugins/table/Plugin';
 import SilverTheme from 'tinymce/themes/silver/Theme';
-import { sTest } from './TableSizingModeCommandUtil';
+import { sTableSizingModeScenarioTest } from '../../module/TableSizingModeCommandUtil';
 
 UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommandWithColGroupsTest', (success, failure) => {
   Plugin();
@@ -13,7 +13,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommand
     const tinyApis = TinyApis(editor);
 
     Pipeline.async({}, [
-      sTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Percent (relative) to pixel (fixed) sizing', true, {
+      sTableSizingModeScenarioTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Percent (relative) to pixel (fixed) sizing', true, {
         mode: 'relative',
         tableWidth: 100,
         rows: 3,
@@ -22,7 +22,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommand
         expectedTableWidth: 800,
         expectedWidths: [[ 400, 400 ]]
       }),
-      sTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Percent (relative) to none (responsive) sizing', true, {
+      sTableSizingModeScenarioTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Percent (relative) to none (responsive) sizing', true, {
         mode: 'relative',
         tableWidth: 100,
         rows: 3,
@@ -31,7 +31,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommand
         expectedTableWidth: null,
         expectedWidths: [[ null, null ]]
       }),
-      sTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Pixel (fixed) to percent (relative) sizing', true, {
+      sTableSizingModeScenarioTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Pixel (fixed) to percent (relative) sizing', true, {
         mode: 'fixed',
         tableWidth: 600,
         rows: 2,
@@ -40,7 +40,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommand
         expectedTableWidth: 75,
         expectedWidths: [[ 50, 50 ]]
       }),
-      sTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Pixel (fixed) to none (responsive) sizing', true, {
+      sTableSizingModeScenarioTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'Pixel (fixed) to none (responsive) sizing', true, {
         mode: 'fixed',
         tableWidth: 600,
         rows: 2,
@@ -49,7 +49,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommand
         expectedTableWidth: null,
         expectedWidths: [[ null, null ]]
       }),
-      sTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'None (responsive) to percent (relative) sizing', true, {
+      sTableSizingModeScenarioTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'None (responsive) to percent (relative) sizing', true, {
         mode: 'responsive',
         tableWidth: null,
         rows: 2,
@@ -58,7 +58,7 @@ UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommand
         expectedTableWidth: 16,
         expectedWidths: [[ 33, 33, 33 ]]
       }),
-      sTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'None (responsive) to pixel (fixed) sizing', true, {
+      sTableSizingModeScenarioTest(editor, tinyApis, 'TINY-6000, TINY-6050', 'None (responsive) to pixel (fixed) sizing', true, {
         mode: 'responsive',
         tableWidth: null,
         rows: 2,

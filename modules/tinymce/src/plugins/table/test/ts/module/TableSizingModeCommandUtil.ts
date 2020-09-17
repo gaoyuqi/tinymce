@@ -1,7 +1,7 @@
 import { Log } from '@ephox/agar';
 import { Arr } from '@ephox/katamari';
 import { TinyApis } from '@ephox/mcagar';
-import { sAssertTableStructureWithSizes } from '../../module/test/TableTestUtils';
+import { sAssertTableStructureWithSizes } from './test/TableTestUtils';
 
 type SizingMode = 'relative' | 'fixed' | 'responsive';
 
@@ -57,7 +57,7 @@ const generateTable = (mode: SizingMode, width: number, rows: number, cols: numb
   return `<table border="1" style="border-collapse: collapse;${tableWidth}">${getColumns()}<tbody>${renderedRows}</tbody></table>`;
 };
 
-const sTest = (editor, tinyApis: TinyApis, title: string, description: string, withColGroups: boolean, scenario: Scenario) =>
+const sTableSizingModeScenarioTest = (editor, tinyApis: TinyApis, title: string, description: string, withColGroups: boolean, scenario: Scenario) =>
   Log.stepsAsStep(title, description, [
     tinyApis.sSetContent(generateTable(scenario.mode, scenario.tableWidth, scenario.rows, scenario.cols, withColGroups)),
     tinyApis.sSetSelection([ 0, withColGroups ? 1 : 0, 0, 0 ], 0, [ 0, withColGroups ? 1 : 0, 0, 0 ], 0),
@@ -66,5 +66,5 @@ const sTest = (editor, tinyApis: TinyApis, title: string, description: string, w
   ]);
 
 export {
-  sTest
+  sTableSizingModeScenarioTest
 };
