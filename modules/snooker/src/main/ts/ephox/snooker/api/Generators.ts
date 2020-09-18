@@ -1,6 +1,6 @@
 import { Arr, Cell, Contracts, Optional } from '@ephox/katamari';
 import { Css, SugarElement } from '@ephox/sugar';
-import { getAttrValue } from '../util/CellUtils';
+import { getAttrValue } from './CellUtils';
 
 export interface CellSpan {
   readonly element: SugarElement;

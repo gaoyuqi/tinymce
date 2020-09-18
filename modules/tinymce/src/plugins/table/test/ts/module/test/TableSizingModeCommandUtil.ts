@@ -1,7 +1,7 @@
 import { Log } from '@ephox/agar';
 import { Arr } from '@ephox/katamari';
 import { TinyApis } from '@ephox/mcagar';
-import { sAssertTableStructureWithSizes } from './test/TableTestUtils';
+import { sAssertTableStructureWithSizes } from './TableTestUtils';
 
 type SizingMode = 'relative' | 'fixed' | 'responsive';
 

@@ -4,6 +4,7 @@ import * as Adjustments from '../resize/Adjustments';
 import { CellLocation } from './CellLocation';
 import * as CellMutations from './CellMutations';
 import * as CellNavigation from './CellNavigation';
+import * as CellUtils from './CellUtils';
 import * as CopyCols from './CopyCols';
 import * as CopyRows from './CopyRows';
 import * as CopySelected from './CopySelected';
@@ -54,5 +55,6 @@ export {
   RunOperation,
   GridRow,
   OtherCells,
-  Warehouse
+  Warehouse,
+  CellUtils
 };

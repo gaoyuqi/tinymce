@@ -5,7 +5,7 @@ import { Detail, RowData } from '../api/Structs';
 import { TableSize } from '../api/TableSize';
 import * as Deltas from '../calc/Deltas';
 import { Warehouse } from '../api/Warehouse';
-import * as CellUtils from '../util/CellUtils';
+import * as CellUtils from '../api/CellUtils';
 import * as ColumnSizes from './ColumnSizes';
 import * as Recalculations from './Recalculations';
 import * as Sizes from './Sizes';

@@ -4,7 +4,7 @@ import * as BarPositions from '../resize/BarPositions';
 import * as ColumnSizes from '../resize/ColumnSizes';
 import * as Redistribution from '../resize/Redistribution';
 import * as Sizes from '../resize/Sizes';
-import * as CellUtils from '../util/CellUtils';
+import * as CellUtils from './CellUtils';
 import { DetailExt, RowData, Column } from './Structs';
 import { TableSize } from './TableSize';
 import { Warehouse } from './Warehouse';

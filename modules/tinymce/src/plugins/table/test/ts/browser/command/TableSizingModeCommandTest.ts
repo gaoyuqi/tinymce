@@ -3,7 +3,7 @@ import { UnitTest } from '@ephox/bedrock-client';
 import { TinyApis, TinyLoader } from '@ephox/mcagar';
 import Plugin from 'tinymce/plugins/table/Plugin';
 import SilverTheme from 'tinymce/themes/silver/Theme';
-import { sTableSizingModeScenarioTest } from '../../module/TableSizingModeCommandUtil';
+import { sTableSizingModeScenarioTest } from '../../module/test/TableSizingModeCommandUtil';
 
 UnitTest.asynctest('browser.tinymce.plugins.table.command.TableSizingModeCommandTest', (success, failure) => {
   Plugin();

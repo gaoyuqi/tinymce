@@ -5,7 +5,7 @@ import { Attribute, Class, Compare, Css, DomEvent, SelectorFind, SugarBody, Suga
 import { findClosestContentEditable, isContentEditableTrue } from '../alien/ContentEditable';
 import { ResizeWire } from '../api/ResizeWire';
 import * as Styles from '../style/Styles';
-import * as CellUtils from '../util/CellUtils';
+import * as CellUtils from '../api/CellUtils';
 import { BarMutation } from './BarMutation';
 import * as Bars from './Bars';
 

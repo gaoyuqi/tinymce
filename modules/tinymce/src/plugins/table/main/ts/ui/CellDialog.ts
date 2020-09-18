@@ -21,17 +21,25 @@ import * as Helpers from './Helpers';
 
 type CellData = Helpers.CellData;
 
-const getSelectedCells = (warehouse: Warehouse, cells: SugarElement<HTMLTableCellElement>[]) => {
-  const allCells = Warehouse.justCells(warehouse);
+const getSelectedCells = (cells: SugarElement<HTMLTableCellElement>[]) =>
+  TableLookup.table(cells[0]).map((table) => {
+    const warehouse = Warehouse.fromTable(table);
 
-  return Arr.filter(allCells, (cellA) =>
-    Arr.exists(cells, (cellB) =>
-      Compare.eq(cellA.element, cellB)
-    )
-  );
-};
+    const allCells = Warehouse.justCells(warehouse);
 
-const updateSimpleProps = (editor: Editor, modifier: DomModifier, isSingleCell: boolean, column: SugarElement<HTMLElement> | undefined, data: CellData) => {
+    const filtered = Arr.filter(allCells, (cellA) =>
+      Arr.exists(cells, (cellB) =>
+        Compare.eq(cellA.element, cellB)
+      )
+    );
+
+    return Arr.map(filtered, (cell) => ({
+      element: cell.element,
+      column: Warehouse.getColumnAt(warehouse, cell.column)
+    }));
+  });
+
+const updateSimpleProps = (editor: Editor, modifier: DomModifier, isSingleCell: boolean, data: CellData, column?: SugarElement<HTMLElement>) => {
   modifier.setAttrib('scope', data.scope);
   modifier.setAttrib('class', data.class);
   modifier.setStyle('height', Util.addPxSuffix(data.height));
@@ -67,22 +75,16 @@ const applyCellData = (editor: Editor, cells: SugarElement<HTMLTableCellElement>
   const isSingleCell = cells.length === 1;
 
   if (cells.length >= 1) {
-    const table = TableLookup.table(SugarElement.fromDom(cells[0].dom)).getOrNull();
+    const selectedCellsOptional = getSelectedCells(cells);
 
-    if (table) {
-      const warehouse = Warehouse.fromTable(table);
-
-      const selectedCells = getSelectedCells(warehouse, cells);
-
-      Arr.each(selectedCells, (cell) => {
+    selectedCellsOptional.each((selectedCells) =>
+      Arr.each(selectedCells, (item) => {
         // Switch cell type if applicable
-        const cellElement = cell.element.dom;
+        const cellElement = item.element.dom;
         const cellElm = data.celltype && Util.getNodeName(cellElement) !== data.celltype ? (dom.rename(cellElement, data.celltype) as HTMLTableCellElement) : cellElement;
         const modifier = isSingleCell ? DomModifier.normal(editor, cellElm) : DomModifier.ifTruthy(editor, cellElm);
 
-        const column = Warehouse.getColumnAt(warehouse, cell.column);
-
-        updateSimpleProps(editor, modifier, isSingleCell, column ? column.element : undefined, data);
+        updateSimpleProps(editor, modifier, isSingleCell, data, item.column?.element);
 
         if (hasAdvancedCellTab(editor)) {
           updateAdvancedProps(modifier, data);
@@ -103,8 +105,7 @@ const applyCellData = (editor: Editor, cells: SugarElement<HTMLTableCellElement>
         if (data.valign) {
           Styles.applyVAlign(editor, cellElm, data.valign);
         }
-      });
-    }
+      }));
   }
 };
 
@@ -119,19 +120,15 @@ const onSubmitCellForm = (editor: Editor, cells: SugarElement<HTMLTableCellEleme
 };
 
 const getData = (editor: Editor, startCell: SugarElement<Element>, cells: SugarElement<HTMLTableCellElement>[]) => {
-  const table = TableLookup.table(startCell).getOrNull();
+  const selectedCellsOtional = getSelectedCells(cells);
 
-  const warehouse = Warehouse.fromTable(table);
+  const cellsData = selectedCellsOtional.map((selectedCells) =>
+    Arr.map(selectedCells, (item) =>
+      Helpers.extractDataFromCellElement(editor, item.element.dom, hasAdvancedCellTab(editor), item.column?.element)
+    )
+  );
 
-  const selectedCells = getSelectedCells(warehouse, cells);
-
-  const cellsData: CellData[] = Arr.map(selectedCells, (cell) => {
-    const column = Warehouse.getColumnAt(warehouse, cell.column);
-
-    return Helpers.extractDataFromCellElement(editor, cell.element.dom, hasAdvancedCellTab(editor), column ? column.element : undefined);
-  });
-
-  return Helpers.getSharedValues<CellData>(cellsData);
+  return Helpers.getSharedValues<CellData>(cellsData.getOrDie());
 };
 
 const open = (editor: Editor, selections: Selections) => {

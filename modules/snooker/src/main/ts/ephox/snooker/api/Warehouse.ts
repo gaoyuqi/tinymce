@@ -1,5 +1,6 @@
 import { Arr, Optional } from '@ephox/katamari';
 import { SugarElement, Traverse, SugarNode } from '@ephox/sugar';
+import { CellUtils } from '@ephox/snooker';
 import * as Structs from '../api/Structs';
 import * as DetailsList from '../model/DetailsList';
 
@@ -32,25 +33,27 @@ const filterItems = function (warehouse: Warehouse, predicate: (x: Structs.Detai
   return Arr.filter(all, predicate);
 };
 
-const generateColumns = <T extends Structs.Detail> (rowData: Structs.RowData<T>, columnsGroup: Record<string, Structs.Column>) => {
+const generateColumns = <T extends Structs.Detail> (rowData: Structs.RowData<T>) => {
   const columns = Traverse.children(rowData.element);
   const filteredColumns = Arr.filter(columns, SugarNode.isTag('col'));
+  const columnsGroup: Record<number, Structs.Column> = {};
 
   let index = 0;
 
   Arr.each(filteredColumns, (column: SugarElement<HTMLTableColElement>): void => {
-    const colspan = column.dom.getAttribute('colspan');
-    const colspanValue = colspan ? Number.parseInt(colspan, 10) : 1;
+    const colspan = CellUtils.getSpan(column, 'colspan');
 
-    Arr.range(colspanValue, (columnIndex): void => {
+    Arr.range(colspan, (columnIndex): void => {
       columnsGroup[index + columnIndex] = {
         element: column,
-        colspan: colspanValue
+        colspan
       };
     });
 
-    index += colspanValue;
+    index += colspan;
   });
+
+  return columnsGroup;
 };
 
 /*
@@ -69,7 +72,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
   //          rowspan (merge cols)
   const access: Record<string, Structs.DetailExt> = {};
   const cells: Structs.RowData<Structs.DetailExt>[] = [];
-  const columnsGroup: Record<number, Structs.Column> = {};
+  let columnsGroup: Record<number, Structs.Column> = {};
 
   let maxRows = 0;
   let maxColumns = 0;
@@ -101,7 +104,7 @@ const generate = <T extends Structs.Detail> (list: Structs.RowData<T>[]): Wareho
     });
 
     if (rowData.section === 'colgroup') {
-      generateColumns<T>(rowData, columnsGroup);
+      columnsGroup = generateColumns<T>(rowData);
     } else {
       maxRows++;
       cells.push(Structs.rowdata(rowData.element, currentRow, rowData.section));

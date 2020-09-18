@@ -1,4 +1,4 @@
-import { Arr, Fun } from '@ephox/katamari';
+import { Arr } from '@ephox/katamari';
 import { Attribute, Insert, InsertAll, Remove, Replication, SelectorFilter, SelectorFind, SugarElement, Traverse } from '@ephox/sugar';
 import { Detail, DetailNew, RowDataNew, Section } from '../api/Structs';
 
@@ -22,12 +22,10 @@ const render = <T extends DetailNew> (table: SugarElement, grid: RowDataNew<T>[]
   const insert = (selector: string, element: SugarElement<HTMLTableSectionElement | HTMLTableColElement>) => {
     const lastChild = Arr.last(SelectorFilter.children(table, selector));
 
-    const foldfunction = lastChild.fold(
-      () => Fun.curry(Insert.prepend, table),
-      (c) => Fun.curry(Insert.after, c)
+    lastChild.fold(
+      () => Insert.prepend(table, element),
+      (child) => Insert.after(table, child)
     );
-
-    foldfunction(element);
   };
 
   const renderSection = (gridSection: RowDataNew<T>[], sectionName: Section) => {
